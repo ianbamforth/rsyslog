@@ -69,6 +69,49 @@ See `attributes/default.rb` for default values.
 
 Recipes
 -------
+=======
+- `node['rsyslog']['log_dir']` - If the node is an rsyslog server, this specifies the directory where the logs should be stored.
+- `node['rsyslog']['working_dir']` - The temporary working directory where messages are buffered
+- `node['rsyslog']['server']` - Determined automatically and set to true on the server.
+- `node['rsyslog']['server_ip']` - If not defined then search will be used to determine rsyslog server. Default is `nil`.  This can be a string or an array.
+- `node['rsyslog']['server_search']` - Specify the criteria for the server search operation. Default is `role:loghost`.
+- `node['rsyslog']['protocol']` - Specify whether to use `udp` or `tcp` for remote loghost. Default is `tcp`. To use both specify both in a string e.g. 'udptcp'.
+- `node['rsyslog']['bind']` - Specify the address to which the server should be listening; only use with `node['rsyslog']['protocol'] = 'udp'` because the feature does not work with the `tcp` protocol ([more info](http://www.rsyslog.com/doc/master/configuration/modules/imtcp.html#caveats-known-bugs)).
+- `node['rsyslog']['port']` - Specify the port which rsyslog should connect to a remote loghost.
+- `node['rsyslog']['remote_logs']` - Specify whether to send all logs to a remote server (client option). Default is `true`.
+- `node['rsyslog']['per_host_dir']` - "PerHost" directories for template statements in `35-server-per-host.conf`. Default value is the previous cookbook version's value, to preserve compatibility. See **server** recipe below.
+- `node['rsyslog']['priv_seperation']` - Whether to use privilege separation or not.
+- `node['rsyslog']['priv_user']` - User to run as when using privilege separation. Defult is  `node['rsyslog']['user']`
+- `node['rsyslog']['priv_group']` - Group to run as when using privilege separation. Defult is  `node['rsyslog']['group']`
+- `node['rsyslog']['max_message_size']` - Specify the maximum allowed message size. Default is 2k.
+- `node['rsyslog']['user']` - Who should own the configuration files and directories
+- `node['rsyslog']['group']` - Who should group-own the configuration files and directories
+- `node['rsyslog']['defaults_file']` - The full path to the defaults/sysconfig file for the service.
+- `node['rsyslog']['service_name']` - The platform-specific name of the service
+- `node['rsyslog']['preserve_fqdn']` - Value of the `$PreserveFQDN` configuration directive in `/etc/rsyslog.conf`. Default is 'off' for compatibility purposes.
+- `node['rsyslog']['high_precision_timestamps']` -  Enable high precision timestamps, instead of the "old style" format.  Default is 'false'.
+- `node['rsyslog']['repeated_msg_reduction']` -  Value of `$RepeatedMsgReduction` configuration directive in `/etc/rsyslog.conf`. Default is 'on'
+- `node['rsyslog']['logs_to_forward']` -  Specifies what logs should be sent to the remote rsyslog server. Default is all ( *.* ).
+- `node['rsyslog']['default_log_dir']` - log directory used in `50-default.conf` template, defaults to `/var/log`
+- `node['rsyslog']['default_facility_logs']` - Hash containing log facilities and destinations used in `50-default.conf` template.
+- `node['rsyslog']['default_file_template']` - The name of a pre-defined log format template (ie - RSYSLOG_FileFormat), used for local log files.
+- `node['rsyslog']['default_remote_template']` - The name of a pre-defined log format template (ie - RSYSLOG_FileFormat), used for sending to remote servers.
+- `node['rsyslog']['rate_limit_interval']` - Value of the $SystemLogRateLimitInterval configuration directive in `/etc/rsyslog.conf`. Default is nil, leaving it to the platform default.
+- `node['rsyslog']['rate_limit_burst']` - Value of the $SystemLogRateLimitBurst configuration directive in `/etc/rsyslog.conf`. Default is nil, leaving it to the platform default.
+- `node['rsyslog']['action_queue_max_disk_space']` - Max amount of disk space the disk-assisted queue is allowed to use ([more info](http://www.rsyslog.com/doc/queues.html)).
+- `node['rsyslog']['enable_tls']` - Whether or not to enable TLS encryption.  When enabled, forces protocol to `tcp`. Default is `false`.
+- `node['rsyslog']['tls_ca_file']` - Path to TLS CA file. Required for both server and clients.
+- `node['rsyslog']['tls_certificate_file']` - Path to TLS certificate file. Required for server, optional for clients.
+- `node['rsyslog']['tls_key_file']` - Path to TLS key file. Required for server, optional for clients.
+- `node['rsyslog']['tls_auth_mode']` - Value for `$InputTCPServerStreamDriverAuthMode`/`$ActionSendStreamDriverAuthMode`, determines whether client certs are validated. Defaults to `anon` (no validation).
+- `node['rsyslog']['use_local_ipv4']` - Whether or not to make use the remote local IPv4 address on cloud systems when searching for servers (where available).  Default is 'false'.
+- `node['rsyslog']['allow_non_local']` - Whether or not to allow non-local messages. If 'false', incoming messages are only allowed from 127.0.0.1. Default is 'false'.
+- `node['rsyslog']['custom_remote']` - Array of hashes for configuring custom remote server targets
+- `node['rsyslog']['additional_directives']` - Hash of additional directives and their values to place in the main rsyslog config file
+- `node['rsyslog']['disableDNS']` - if set to 'true', adds global(net.enableDNS="off") to the rsyslog.conf file to disable reverse DNS lookups
+- `node['rsyslog']['disableACLResolveHostname']` - if set to 'true', adds global(net.aclResolveHostname="off") to the rsyslog.conf file to disable hostname resolution during ACL processing
+
+## Recipes
 ### default
 Installs the rsyslog package, manages the rsyslog service and sets up basic configuration for a standalone machine.
 
