@@ -111,6 +111,13 @@ $SystemLogRateLimitBurst <%= node['rsyslog']['rate_limit_burst'] %>
 $<%= k %> <%= v %>
 <% end %>
 
+<% if node['rsyslog']['disableDNS'] %>
+  global(net.enableDNS="off")
+<% end %>
+<% if node['rsyslog']['disableACLResolveHostname'] %>
+  global(net.aclResolveHostname="off")
+<% end %>
+
 #
 # Include all config files in <%= node['rsyslog']['config_prefix'] %>/rsyslog.d/
 #

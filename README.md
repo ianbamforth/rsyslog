@@ -59,6 +59,8 @@ See `attributes/default.rb` for default values.
 - `node['rsyslog']['allow_non_local']` - Whether or not to allow non-local messages. If 'false', incoming messages are only allowed from 127.0.0.1. Default is 'false'.
 - `node['rsyslog']['custom_remote']` - Array of hashes for configuring custom remote server targets
 - `node['rsyslog']['additional_directives']` - Hash of additional directives and their values to place in the main rsyslog config file
+- `node['rsyslog']['disableDNS']` - if set to 'true', adds global(net.enableDNS="off") to the rsyslog.conf file to disable reverse DNS lookups
+- `node['rsyslog']['disableACLResolveHostname']` - if set to 'true', adds global(net.aclResolveHostname="off") to the rsyslog.conf file to disable hostname resolution during ACL processing
 
 ## Recipes
 ### default
