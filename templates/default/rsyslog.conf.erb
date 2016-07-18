@@ -51,6 +51,18 @@ $InputTCPServerRun <%= node['rsyslog']['port'] %>
   $UDPServerRun <%= node['rsyslog']['port'] %>
 <% end -%>
   <% end -%>
+<% else -%>
+  <% if node['rsyslog']['enable_local_server'] %>
+    <% if node['rsyslog']['protocol'] =~ /tcp/ %>
+$ModLoad imtcp
+$InputTCPServerRun <%= node['rsyslog']['port'] %>
+    <% end -%>
+    <% if node['rsyslog']['protocol'] =~ /udp/ %>
+$ModLoad imudp
+$UDPServerAddress 127.0.0.1
+$UDPServerRun <%= node['rsyslog']['port'] %>
+    <% end -%>
+  <% end -%>
 <% end -%>
 
 ###########################
