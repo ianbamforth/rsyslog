@@ -53,7 +53,7 @@ default['rsyslog']['custom_remote']             = [{}]
 default['rsyslog']['additional_directives'] = {}
 default['rsyslog']['disableDNS']                = false
 default['rsyslog']['disableACLResolveHostname'] = false
-default['rsyslog']['enable_local_server']       = false
+default['rsyslog']['enable_local_udp_server']   = false
 
 # The most likely platform-specific attributes
 default['rsyslog']['service_name']              = 'rsyslog'
